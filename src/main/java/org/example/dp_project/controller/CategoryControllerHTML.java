@@ -16,5 +16,9 @@ public class CategoryControllerHTML {
         return "courses.html";
     }
 
+    @GetMapping("/instructors")
+    public String instructors() {
+        return "instructor.html";
+    }
 
 }
