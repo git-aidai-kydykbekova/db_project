@@ -17,6 +17,10 @@
 <div class="container mt-4">
     <h1 class="text-center mb-4">Course Management</h1>
 
+    <div class="text-right mb-3">
+        <button class="btn btn-success" data-toggle="modal" data-target="#createCourseModal">Create New Course</button>
+    </div>
+
     <div class="form-group">
         <label for="searchCriteria">Search by</label>
         <select class="form-control" id="searchCriteria">
@@ -35,8 +39,65 @@
 
     <hr class="mt-4">
 
-    <div class="row" id="courses">
+    <div class="form-group">
+        <label for="sortCriteria">Sort by</label>
+        <select class="form-control" id="sortCriteria">
+            <option value="duration">Duration</option>
+            <option value="price">Price</option>
+            <option value="enrollments">Enrollments</option>
+            <option value="rating">Rating</option>
+        </select>
+        <button id="sortCourses" class="btn btn-secondary btn-block mt-2">Sort Courses</button>
+    </div>
+
+    <div id="courses" class="row">
         <!-- Courses will be dynamically populated here -->
+    </div>
+</div>
+
+<!-- Create Course Modal -->
+<div class="modal fade" id="createCourseModal" tabindex="-1" role="dialog" aria-labelledby="createCourseModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="createCourseModalLabel">Create New Course</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createCourseForm">
+                    <div class="form-group">
+                        <label for="newCourseTitle">Course Title</label>
+                        <input type="text" class="form-control" id="newCourseTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newCourseDescription">Course Description</label>
+                        <input type="text" class="form-control" id="newCourseDescription" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newCourseInstructor">Instructor Name</label>
+                        <input type="text" class="form-control" id="newCourseInstructor" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newCourseCategory">Category Name</label>
+                        <input type="text" class="form-control" id="newCourseCategory" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newCourseDuration">Duration (hour)</label>
+                        <input type="text" class="form-control" id="newCourseDuration" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newCoursePrice">Price</label>
+                        <input type="text" class="form-control" id="newCoursePrice" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="saveCourse">Save</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -65,12 +126,57 @@
                         <input type="text" class="form-control" id="updateCourseInstructor" required>
                     </div>
                     <div class="form-group">
-                        <label for="updateCourseEnrollments">Total Enrollments</label>
-                        <input type="number" class="form-control" id="updateCourseEnrollments" required>
+                        <label for="updateCourseCategory">Category Name</label>
+                        <input type="text" class="form-control" id="updateCourseCategory" required>
                     </div>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-warning" id="updateCourse">Update</button>
+                    <div class="form-group">
+                        <label for="updateCourseDuration">Duration (hour)</label>
+                        <input type="text" class="form-control" id="updateCourseDuration" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateCoursePrice">Price</label>
+                        <input type="text" class="form-control" id="updateCoursePrice" required>
+                    </div>
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-warning" id="updateCourse">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Enroll Me Modal -->
+<div class="modal fade" id="enrollMeModal" tabindex="-1" role="dialog" aria-labelledby="enrollMeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="enrollMeModalLabel">Enroll in Course</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="enrollMeForm">
+                    <div class="form-group">
+                        <input type="hidden" id="courseId">
+                        <label for="studentName">Student Name</label>
+                        <input type="text" class="form-control" id="studentName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseName">Course Name</label>
+                        <input type="text" class="form-control" id="courseName" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseCategory">Course Category</label>
+                        <input type="text" class="form-control" id="courseCategory" readonly>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="enrollMe">Enroll Me</button>
             </div>
         </div>
     </div>
@@ -82,7 +188,9 @@
         fetchCourses();
 
         function fetchCourses() {
-            $.get('/course/get-all-courses', function (response) {
+            const criteria = $('#sortCriteria').val();
+
+            $.get(`/course/sort-by-${criteria}`, function (response) {
                 if (response.data) {
                     const coursesContainer = $('#courses');
                     coursesContainer.empty(); // Clear previous courses
@@ -94,17 +202,31 @@
                                         <h5 class="card-title">${course.title}</h5>
                                         <p class="card-text">${course.description}</p>
                                         <p class="card-text">Instructor: ${course.instructorName}</p>
+                                        <p class="card-text">Category: ${course.categoryName}</p>
+                                        <p class="card-text">Duration: ${course.duration} hour</p>
+                                        <p class="card-text">Rating: ${course.averageRating}</p>
                                         <p class="card-text">Enrollments: ${course.totalEnrollments}</p>
-                                        <p class="card-text">Average Rating: ${course.averageRating}</p>
-                                        <p class="card-text">Creation Date: ${course.creationDate}</p>
+                                        <p class="card-text">Price: ${course.price} com</p>
                                         <button class="btn btn-warning btn-sm updateCourseBtn"
                                                 data-id="${course.id}"
                                                 data-name="${course.title}"
                                                 data-description="${course.description}"
                                                 data-instructor="${course.instructorName}"
+                                                data-category="${course.categoryName}"
+                                                data-duration="${course.duration}"
+                                                data-price="${course.price}"
                                                 data-toggle="modal"
                                                 data-target="#updateCourseModal">
                                             Update
+                                        </button>
+                                        <button class="btn btn-success btn-sm enrollMeBtn"
+                                                data-id="${course.id}"
+                                                data-name="${course.title}"
+                                                data-category="${course.categoryName}"
+                                                data-category="${course.price}"
+                                                data-toggle="modal"
+                                                data-target="#enrollMeModal">
+                                            Enroll Me
                                         </button>
                                     </div>
                                 </div>
@@ -118,6 +240,70 @@
                 alert('Failed to fetch courses.');
             });
         }
+
+        // Create new course
+        $('#saveCourse').click(function () {
+            const title = $('#newCourseTitle').val();
+            const description = $('#newCourseDescription').val();
+            const instructorName = $('#newCourseInstructor').val();
+            const categoryName = $('#newCourseCategory').val();
+            const duration = $('#newCourseDuration').val();
+            const price = $('#newCoursePrice').val();
+            $.ajax({
+                url: '/course/create-course',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ title, description, instructorName, categoryName, duration, price}),
+                success: function () {
+                    $('#createCourseModal').modal('hide');
+                    fetchCourses();
+                },
+                error: function () {
+                    alert('Course with that name already exists!');
+                }
+            });
+        });
+
+        // Populate update modal with course data
+        $(document).on('click', '.updateCourseBtn', function () {
+            $('#updateCourseTitle').val($(this).data('name'));
+            $('#updateCourseDescription').val($(this).data('description'));
+            $('#updateCourseInstructor').val($(this).data('instructor'));
+            $('#updateCourseCategory').val($(this).data('category'));
+            $('#updateCourseDuration').val($(this).data('duration'));
+            $('#updateCoursePrice').val($(this).data('price')); // include price field
+        });
+
+// Update course
+        $('#updateCourse').click(function () {
+            const title = $('#updateCourseTitle').val();
+            const description = $('#updateCourseDescription').val();
+            const instructorName = $('#updateCourseInstructor').val();
+            const categoryName = $('#updateCourseCategory').val();
+            const duration = $('#updateCourseDuration').val();
+            const price = $('#updateCoursePrice').val();
+            const id = $('.updateCourseBtn').data('id');
+            $.ajax({
+                url: `/course/update-course`,
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({id, title, description, instructorName, categoryName, duration, price}),
+                success: function () {
+                    $('#updateCourseModal').modal('hide');
+                    fetchCourses();
+                },
+                error: function () {
+                    alert('Course with that name already exists!');
+                }
+            });
+        });
+
+        // Populate enrollment modal with course data
+        $(document).on('click', '.enrollMeBtn', function () {
+            $('#courseId').val($(this).data('id'));
+            $('#courseName').val($(this).data('name'));
+            $('#courseCategory').val($(this).data('category'));
+        });
 
         // Combined search functionality
         $('#searchCourses').click(function () {
@@ -161,14 +347,20 @@
                                 <h5 class="card-title">${course.title}</h5>
                                 <p class="card-text">${course.description}</p>
                                 <p class="card-text">Instructor: ${course.instructorName}</p>
+                                <p class="card-text">Category: ${course.categoryName}</p>
+                                <p class="card-text">Duration: ${course.duration} hour</p>
                                 <p class="card-text">Enrollments: ${course.totalEnrollments}</p>
                                 <p class="card-text">Average Rating: ${course.averageRating}</p>
                                 <p class="card-text">Creation Date: ${course.creationDate}</p>
+                                <p class="card-text">Price: ${course.price}</p>
                                 <button class="btn btn-warning btn-sm updateCourseBtn"
                                         data-id="${course.id}"
                                         data-name="${course.title}"
                                         data-description="${course.description}"
                                         data-instructor="${course.instructorName}"
+                                        data-category="${course.categoryName}"
+                                        data-duration="${course.duration}"
+                                        data-price="${course.price}"
                                         data-toggle="modal"
                                         data-target="#updateCourseModal">
                                     Update
@@ -183,37 +375,35 @@
             }
         }
 
-        // Populate update modal with course data
-        $(document).on('click', '.updateCourseBtn', function () {
-            $('#updateCourseTitle').val($(this).data('name'));
-            $('#updateCourseDescription').val($(this).data('description'));
-            $('#updateCourseInstructor').val($(this).data('instructorName'));
-            $('#updateCourse').data('id', $(this).data('id'));
-        });
-
-        // Update course
-        $('#updateCourse').click(function () {
-            const id = $(this).data('id');
-            const title = $('#updateCourseTitle').val();
-            const description = $('#updateCourseDescription').val();
-            const instructor = $('#updateCourseInstructor').val();
+        // Enroll in course
+        $('#enrollMe').click(function () {
+            const courseId = $('#courseId').val();
+            const studentName = $('#studentName').val();
             $.ajax({
-                url: `/course/update-course`,
-                type: 'PUT',
+                url: '/enrollment/create-enrollment',
+                type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({id, title, description, instructor}),
-                success: function () {
-                    $('#updateCourseModal').modal('hide');
+                data: JSON.stringify({ courseId, studentName }),
+                success: function (response) {
+                    $('#enrollMeModal').modal('hide');
                     fetchCourses();
+                    alert('Successfully enrolled in the course!');
                 },
-                error: function () {
-                    alert('Failed to update course.');
+                error: function (response) {
+                    alert('Student with this name is not found');
                 }
             });
         });
+
+        // Sort Courses
+        $('#sortCourses').click(function () {
+            fetchCourses()
+        });
     });
+
 </script>
 
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

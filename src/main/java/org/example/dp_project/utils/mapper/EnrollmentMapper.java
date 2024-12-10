@@ -24,8 +24,7 @@ public class EnrollmentMapper {
         enrollmentDto.setId(enrollment.getId());
         enrollmentDto.setEnrollmentDate(enrollment.getEnrollmentDate());
         enrollmentDto.setCompletionStatus(enrollment.getCompletionStatus());
-        enrollmentDto.setCourseName(enrollment.getEnrollmentCourse().getTitle());
-        enrollmentDto.setCourseCategory(enrollment.getEnrollmentCourse().getCourseCategory().getName());
+        enrollmentDto.setCourseId(enrollment.getEnrollmentCourse().getId());
         enrollmentDto.setStudentName(enrollment.getEnrollmentStudent().getName());
         return enrollmentDto;
     }
@@ -38,9 +37,8 @@ public class EnrollmentMapper {
         Enrollment enrollment = new Enrollment();
         enrollment.setId(enrollmentDto.getId());
         enrollment.setEnrollmentDate(enrollmentDto.getEnrollmentDate());
-        enrollment.setEnrollmentDate(enrollmentDto.getEnrollmentDate());
         enrollment.setCompletionStatus(enrollmentDto.getCompletionStatus());
-        enrollment.setEnrollmentCourse(courseService.getCourseEntityByName(enrollmentDto.getCourseName()));
+        enrollment.setEnrollmentCourse(courseService.getCourseById(enrollmentDto.getCourseId()));
         enrollment.setEnrollmentStudent(studentService.getStudentEntityByName(enrollmentDto.getStudentName()));
         return enrollment;
     }

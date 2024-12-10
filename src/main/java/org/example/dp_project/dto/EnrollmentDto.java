@@ -7,8 +7,7 @@ public class EnrollmentDto {
     private LocalDate enrollmentDate;
     private Boolean completionStatus;
     private String studentName;
-    private String courseName;
-    private String courseCategory;
+    private Long courseId;
 
     public EnrollmentDto() {}
 
@@ -48,21 +47,12 @@ public class EnrollmentDto {
         return this;
     }
 
-    public String getCourseName() {
-        return courseName;
+    public Long getCourseId() {
+        return courseId;
     }
 
-    public EnrollmentDto setCourseName(String courseName) {
-        this.courseName = courseName;
-        return this;
-    }
-
-    public String getCourseCategory() {
-        return courseCategory;
-    }
-
-    public EnrollmentDto setCourseCategory(String courseCategory) {
-        this.courseCategory = courseCategory;
+    public EnrollmentDto setCourseId(Long courseId) {
+        this.courseId = courseId;
         return this;
     }
 }

@@ -56,7 +56,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
     @Override
     public EnrollmentDto createEnrollment(EnrollmentDto enrollmentDtoRequest) {
-        return enrollmentMapper.entityToDto(save(enrollmentMapper.dtoToEntity(enrollmentDtoRequest)));
+        Enrollment newEnrollment = enrollmentMapper.dtoToEntity(enrollmentDtoRequest);
+        newEnrollment.setCompletionStatus(false);
+        return enrollmentMapper.entityToDto(save(newEnrollment));
     }
 
     @Override

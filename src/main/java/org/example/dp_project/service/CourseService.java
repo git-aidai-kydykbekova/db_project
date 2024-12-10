@@ -19,8 +19,8 @@ public interface CourseService {
     CourseDtoResponse createCourse(CourseDtoRequest CourseDto);
     CourseDtoResponse updateCourse(CourseDtoRequest CourseDto);
 
-    List<CourseDtoResponse> sortByDuration(List<CourseDtoResponse> courseDtoResponseList);
-    List<CourseDtoResponse> sortByPrice(List<CourseDtoResponse> courseDtoResponseList);
-    List<CourseDtoResponse> sortByEnrollments(List<CourseDtoResponse> courseDtoResponseList);
-    List<CourseDtoResponse> sortByRating(List<CourseDtoResponse> courseDtoResponseList);
+    List<CourseDtoResponse> sortByDuration();
+    List<CourseDtoResponse> sortByPrice();
+    List<CourseDtoResponse> sortByEnrollments();
+    List<CourseDtoResponse> sortByRating();
 }

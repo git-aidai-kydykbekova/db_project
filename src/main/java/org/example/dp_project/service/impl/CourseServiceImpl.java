@@ -102,29 +102,29 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseDtoResponse> sortByDuration(List<CourseDtoResponse> courseDtoResponseList) {
-        return courseDtoResponseList.stream()
+    public List<CourseDtoResponse> sortByDuration() {
+        return getAllCourses().stream()
                 .sorted(Comparator.comparingInt(CourseDtoResponse::getDuration))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<CourseDtoResponse> sortByPrice(List<CourseDtoResponse> courseDtoResponseList) {
-        return courseDtoResponseList.stream()
+    public List<CourseDtoResponse> sortByPrice() {
+        return getAllCourses().stream()
                 .sorted(Comparator.comparingDouble(CourseDtoResponse::getPrice))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<CourseDtoResponse> sortByEnrollments(List<CourseDtoResponse> courseDtoResponseList) {
-        return courseDtoResponseList.stream()
+    public List<CourseDtoResponse> sortByEnrollments() {
+        return getAllCourses().stream()
                 .sorted(Comparator.comparingInt(CourseDtoResponse::getTotalEnrollments))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<CourseDtoResponse> sortByRating(List<CourseDtoResponse> courseDtoResponseList) {
-        return courseDtoResponseList.stream()
+    public List<CourseDtoResponse> sortByRating() {
+        return getAllCourses().stream()
                 .sorted(Comparator.comparingDouble(CourseDtoResponse::getAverageRating).reversed())
                 .collect(Collectors.toList());
     }

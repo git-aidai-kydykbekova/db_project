@@ -85,36 +85,36 @@ public class CourseController {
     }
 
     @GetMapping(value = "/sort-by-duration")
-    public ResponseEntity<Response> sortByDuration(@RequestBody List<CourseDtoResponse> courseDtoResponses) {
+    public ResponseEntity<Response> sortByDuration() {
         try {
-            return ResponseEntity.ok(new Response("Successfully get Courses.", courseService.sortByDuration(courseDtoResponses)));
+            return ResponseEntity.ok(new Response("Successfully get Courses.", courseService.sortByDuration()));
         } catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("Failed to get Courses. " + exception.getMessage(), null));
         }
     }
 
     @GetMapping(value = "/sort-by-price")
-    public ResponseEntity<Response> sortByPrice(@RequestBody List<CourseDtoResponse> courseDtoResponses) {
+    public ResponseEntity<Response> sortByPrice() {
         try {
-            return ResponseEntity.ok(new Response("Successfully get Courses.", courseService.sortByPrice(courseDtoResponses)));
+            return ResponseEntity.ok(new Response("Successfully get Courses.", courseService.sortByPrice()));
         } catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("Failed to get Courses. " + exception.getMessage(), null));
         }
     }
 
     @GetMapping(value = "/sort-by-enrollments")
-    public ResponseEntity<Response> sortByEnrollments(@RequestBody List<CourseDtoResponse> courseDtoResponses) {
+    public ResponseEntity<Response> sortByEnrollments() {
         try {
-            return ResponseEntity.ok(new Response("Successfully get Courses.", courseService.sortByEnrollments(courseDtoResponses)));
+            return ResponseEntity.ok(new Response("Successfully get Courses.", courseService.sortByEnrollments()));
         } catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("Failed to get Courses. " + exception.getMessage(), null));
         }
     }
 
     @GetMapping(value = "/sort-by-rating")
-    public ResponseEntity<Response> sortByRating(@RequestBody List<CourseDtoResponse> courseDtoResponses) {
+    public ResponseEntity<Response> sortByRating() {
         try {
-            return ResponseEntity.ok(new Response("Successfully get Courses.", courseService.sortByRating(courseDtoResponses)));
+            return ResponseEntity.ok(new Response("Successfully get Courses.", courseService.sortByRating()));
         } catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("Failed to get Courses. " + exception.getMessage(), null));
         }
