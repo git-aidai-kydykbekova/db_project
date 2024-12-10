@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Course Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Course Management</h1>
+
+    <div class="form-group">
+        <label for="courseName">Course Name</label>
+        <input type="text" class="form-control" id="courseName" placeholder="Enter course name">
+        <button id="getCourseByName" class="btn btn-primary mt-2">Get Course By Name</button>
+    </div>
+
+    <div class="form-group">
+        <button id="getAllCourses" class="btn btn-primary mt-2">Get All Courses</button>
+    </div>
+
+    <div class="form-group">
+        <label for="categoryName">Category Name</label>
+        <input type="text" class="form-control" id="categoryName" placeholder="Enter category name">
+        <button id="getCourseByCategoryName" class="btn btn-primary mt-2">Get Course By Category Name</button>
+    </div>
+
+    <div class="form-group">
+        <label for="instructorName">Instructor Name</label>
+        <input type="text" class="form-control" id="instructorName" placeholder="Enter instructor name">
+        <button id="getCourseByInstructorName" class="btn btn-primary mt-2">Get Course By Instructor Name</button>
+    </div>
+
+    <div class="form-group">
+        <label for="newCourseName">New Course Name</label>
+        <input type="text" class="form-control" id="newCourseName" placeholder="Enter new course name">
+        <label for="newCourseCategory">New Course Category</label>
+        <input type="text" class="form-control" id="newCourseCategory" placeholder="Enter new course category">
+        <label for="newCourseInstructor">New Course Instructor</label>
+        <input type="text" class="form-control" id="newCourseInstructor" placeholder="Enter new course instructor">
+        <button id="createCourse" class="btn btn-success mt-2">Create Course</button>
+    </div>
+
+    <div class="form-group">
+        <label for="updateCourseName">Update Course Name</label>
+        <input type="text" class="form-control" id="updateCourseName" placeholder="Enter updated course name">
+        <label for="updateCourseCategory">Update Course Category</label>
+        <input type="text" class="form-control" id="updateCourseCategory" placeholder="Enter updated course category">
+        <label for="updateCourseInstructor">Update Course Instructor</label>
+        <input type="text" class="form-control" id="updateCourseInstructor" placeholder="Enter updated course instructor">
+        <button id="updateCourse" class="btn btn-warning mt-2">Update Course</button>
+    </div>
+
+    <div id="result" class="mt-4"></div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#getCourseByName').click(function() {
+            let courseName = $('#courseName').val();
+            $.get(`/course/get-course-by-name/${courseName}`, function(data) {
+                $('#result').html(`<div class="alert alert-info">${JSON.stringify(data)}</div>`);
+            }).fail(function(response) {
+                $('#result').html(`<div class="alert alert-danger">Failed to get Course: ${response.responseJSON.message}</div>`);
+            });
+        });
+
+        $('#getAllCourses').click(function() {
+            $.get(`/course/get-all-course`, function(data) {
+                $('#result').html(`<div class="alert alert-info">${JSON.stringify(data)}</div>`);
+            }).fail(function(response) {
+                $('#result').html(`<div class="alert alert-danger">Failed to get all Courses: ${response.responseJSON.message}</div>`);
+            });
+        });
+
+        $('#getCourseByCategoryName').click(function() {
+            let categoryName = $('#categoryName').val();
+            $.get(`/course/get-course-by-category-name/${categoryName}`, function(data) {
+                $('#result').html(`<div class="alert alert-info">${JSON.stringify(data)}</div>`);
+            }).fail(function(response) {
+                $('#result').html(`<div class="alert alert-danger">Failed to get Courses: ${response.responseJSON.message}</div>`);
+            });
+        });
+
+        $('#getCourseByInstructorName').click(function() {
+            let instructorName = $('#instructorName').val();
+            $.get(`/course/get-course-by-instructor-name/${instructorName}`, function(data) {
+                $('#result').html(`<div class="alert alert-info">${JSON.stringify(data)}</div>`);
+            }).fail(function(response) {
+                $('#result').html(`<div class="alert alert-danger">Failed to get Courses: ${response.responseJSON.message}</div>`);
+            });
+        });
+
+        $('#createCourse').click(function() {
+            let courseName = $('#newCourseName').val();
+            let courseCategory = $('#newCourseCategory').val();
+            let courseInstructor = $('#newCourseInstructor').val();
+            $.ajax({
+                url: '/course/create-course',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ name: courseName, category: courseCategory, instructor: courseInstructor }),
+                success: function(data) {
+                    $('#result').html(`<div class="alert alert-success">${data.message}</div>`);
+                },
+                error: function(response) {
+                    $('#result').html(`<div class="alert alert-danger">Failed to create Course: ${response.responseJSON.message}</div>`);
+                }
+            });
+        });
+
+        $('#updateCourse').click(function() {
+            let courseName = $('#updateCourseName').val();
+            let courseCategory = $('#updateCourseCategory').val();
+            let courseInstructor = $('#updateCourseInstructor').val();
+            $.ajax({
+                url: '/course/update-course',
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({ name: courseName, category: courseCategory, instructor: courseInstructor }),
+                success: function(data) {
+                    $('#result').html(`<div class="alert alert-success">${data.message}</div>`);
+                },
+                error: function(response) {
+                    $('#result').html(`<div class="alert alert-danger">Failed to update Course: ${response.responseJSON.message}</div>`);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
