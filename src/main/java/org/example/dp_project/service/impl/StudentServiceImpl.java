@@ -74,7 +74,7 @@ public class StudentServiceImpl implements StudentService {
     public StudentDto updateStudent(StudentDto studentDto) {
         isIdExist(studentDto.getId());
         Student oldStudent = studentMapper.dtoToEntity(studentDto);
-        Student newStudent = getStudentEntityByName(studentDto.getName());
+        Student newStudent = getStudentById(studentDto.getId());
 
         if (!newStudent.getEmail().equals(oldStudent.getEmail()))
             isEmailExist(oldStudent.getEmail());

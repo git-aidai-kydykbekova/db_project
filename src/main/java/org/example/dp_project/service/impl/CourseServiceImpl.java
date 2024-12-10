@@ -68,8 +68,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseDtoResponse> getCoursesByStudentId(Long studentId) {
-        return courseMapper.entityToDtoList(courseRepository.findCourseByStudentId(studentId));
+    public List<CourseDtoResponse> getCoursesByStudentName(String studentName) {
+        return courseMapper.entityToDtoList(courseRepository.findCourseByStudentName(studentName));
     }
 
     @Override
@@ -83,7 +83,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseDtoResponse updateCourse(CourseDtoRequest courseDtoRequest) {
         Course oldCourse = courseMapper.dtoToEntity(courseDtoRequest);
-        Course newCourse = getCourseEntityByName(courseDtoRequest.getCategoryName());
+        Course newCourse = getCourseById(courseDtoRequest.getId());
 
         if (!(oldCourse.getTitle() == null))
             newCourse.setTitle(oldCourse.getTitle());

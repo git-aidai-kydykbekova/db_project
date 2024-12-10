@@ -70,7 +70,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto updateCategory(CategoryDto categoryDto) {
         Category oldCategory = categoryMapper.dtoToEntity(categoryDto);
-        Category newCategory = getCategoryEntityByName(categoryDto.getName());
+        Category newCategory = getCategoryById(categoryDto.getId());
 
         if (!newCategory.getName().equals(oldCategory.getName()))
             isNameExist(oldCategory.getName());

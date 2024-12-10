@@ -70,7 +70,7 @@ public class InstructorServiceImpl implements InstructorService {
     @Override
     public InstructorDto updateInstructor(InstructorDto instructorDto) {
         Instructor oldInstructor = instructorMapper.dtoToEntity(instructorDto);
-        Instructor newInstructor = getInstructorEntityByName(instructorDto.getName());
+        Instructor newInstructor = getInstructorById(instructorDto.getId());
 
         if (!newInstructor.getEmail().equals(oldInstructor.getEmail()))
             isEmailExist(oldInstructor.getEmail());

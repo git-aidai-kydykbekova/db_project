@@ -1,132 +1,219 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course Management</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-<div class="container">
-    <h1>Course Management</h1>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="#">Course Manager</a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Course Management</h1>
 
     <div class="form-group">
-        <label for="courseName">Course Name</label>
-        <input type="text" class="form-control" id="courseName" placeholder="Enter course name">
-        <button id="getCourseByName" class="btn btn-primary mt-2">Get Course By Name</button>
+        <label for="searchCriteria">Search by</label>
+        <select class="form-control" id="searchCriteria">
+            <option value="title">Title</option>
+            <option value="category">Category</option>
+            <option value="instructor">Instructor Name</option>
+            <option value="student">Student Name</option>
+        </select>
+        <input type="text" class="form-control mt-2" id="searchQuery" placeholder="Enter search term">
+        <button id="searchCourses" class="btn btn-info btn-block mt-2">Search Courses</button>
     </div>
 
-    <div class="form-group">
-        <button id="getAllCourses" class="btn btn-primary mt-2">Get All Courses</button>
+    <div id="searchResults" class="row">
+        <!-- Search results will be displayed here -->
     </div>
 
-    <div class="form-group">
-        <label for="categoryName">Category Name</label>
-        <input type="text" class="form-control" id="categoryName" placeholder="Enter category name">
-        <button id="getCourseByCategoryName" class="btn btn-primary mt-2">Get Course By Category Name</button>
-    </div>
+    <hr class="mt-4">
 
-    <div class="form-group">
-        <label for="instructorName">Instructor Name</label>
-        <input type="text" class="form-control" id="instructorName" placeholder="Enter instructor name">
-        <button id="getCourseByInstructorName" class="btn btn-primary mt-2">Get Course By Instructor Name</button>
+    <div class="row" id="courses">
+        <!-- Courses will be dynamically populated here -->
     </div>
+</div>
 
-    <div class="form-group">
-        <label for="newCourseName">New Course Name</label>
-        <input type="text" class="form-control" id="newCourseName" placeholder="Enter new course name">
-        <label for="newCourseCategory">New Course Category</label>
-        <input type="text" class="form-control" id="newCourseCategory" placeholder="Enter new course category">
-        <label for="newCourseInstructor">New Course Instructor</label>
-        <input type="text" class="form-control" id="newCourseInstructor" placeholder="Enter new course instructor">
-        <button id="createCourse" class="btn btn-success mt-2">Create Course</button>
+<!-- Update Course Modal -->
+<div class="modal fade" id="updateCourseModal" tabindex="-1" role="dialog" aria-labelledby="updateCourseModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-dark">
+                <h5 class="modal-title" id="updateCourseModalLabel">Update Course</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="updateCourseForm">
+                    <div class="form-group">
+                        <label for="updateCourseTitle">Course Title</label>
+                        <input type="text" class="form-control" id="updateCourseTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateCourseDescription">Course Description</label>
+                        <input type="text" class="form-control" id="updateCourseDescription" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateCourseInstructor">Instructor Name</label>
+                        <input type="text" class="form-control" id="updateCourseInstructor" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateCourseEnrollments">Total Enrollments</label>
+                        <input type="number" class="form-control" id="updateCourseEnrollments" required>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-warning" id="updateCourse">Update</button>
+                </form>
+            </div>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label for="updateCourseName">Update Course Name</label>
-        <input type="text" class="form-control" id="updateCourseName" placeholder="Enter updated course name">
-        <label for="updateCourseCategory">Update Course Category</label>
-        <input type="text" class="form-control" id="updateCourseCategory" placeholder="Enter updated course category">
-        <label for="updateCourseInstructor">Update Course Instructor</label>
-        <input type="text" class="form-control" id="updateCourseInstructor" placeholder="Enter updated course instructor">
-        <button id="updateCourse" class="btn btn-warning mt-2">Update Course</button>
-    </div>
-
-    <div id="result" class="mt-4"></div>
 </div>
 
 <script>
-    $(document).ready(function() {
-        $('#getCourseByName').click(function() {
-            let courseName = $('#courseName').val();
-            $.get(`/course/get-course-by-name/${courseName}`, function(data) {
-                $('#result').html(`<div class="alert alert-info">${JSON.stringify(data)}</div>`);
-            }).fail(function(response) {
-                $('#result').html(`<div class="alert alert-danger">Failed to get Course: ${response.responseJSON.message}</div>`);
-            });
-        });
+    $(document).ready(function () {
+        // Fetch and display all courses on page load
+        fetchCourses();
 
-        $('#getAllCourses').click(function() {
-            $.get(`/course/get-all-course`, function(data) {
-                $('#result').html(`<div class="alert alert-info">${JSON.stringify(data)}</div>`);
-            }).fail(function(response) {
-                $('#result').html(`<div class="alert alert-danger">Failed to get all Courses: ${response.responseJSON.message}</div>`);
-            });
-        });
-
-        $('#getCourseByCategoryName').click(function() {
-            let categoryName = $('#categoryName').val();
-            $.get(`/course/get-course-by-category-name/${categoryName}`, function(data) {
-                $('#result').html(`<div class="alert alert-info">${JSON.stringify(data)}</div>`);
-            }).fail(function(response) {
-                $('#result').html(`<div class="alert alert-danger">Failed to get Courses: ${response.responseJSON.message}</div>`);
-            });
-        });
-
-        $('#getCourseByInstructorName').click(function() {
-            let instructorName = $('#instructorName').val();
-            $.get(`/course/get-course-by-instructor-name/${instructorName}`, function(data) {
-                $('#result').html(`<div class="alert alert-info">${JSON.stringify(data)}</div>`);
-            }).fail(function(response) {
-                $('#result').html(`<div class="alert alert-danger">Failed to get Courses: ${response.responseJSON.message}</div>`);
-            });
-        });
-
-        $('#createCourse').click(function() {
-            let courseName = $('#newCourseName').val();
-            let courseCategory = $('#newCourseCategory').val();
-            let courseInstructor = $('#newCourseInstructor').val();
-            $.ajax({
-                url: '/course/create-course',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ name: courseName, category: courseCategory, instructor: courseInstructor }),
-                success: function(data) {
-                    $('#result').html(`<div class="alert alert-success">${data.message}</div>`);
-                },
-                error: function(response) {
-                    $('#result').html(`<div class="alert alert-danger">Failed to create Course: ${response.responseJSON.message}</div>`);
+        function fetchCourses() {
+            $.get('/course/get-all-courses', function (response) {
+                if (response.data) {
+                    const coursesContainer = $('#courses');
+                    coursesContainer.empty(); // Clear previous courses
+                    response.data.forEach(course => {
+                        coursesContainer.append(`
+                            <div class="col-md-4">
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${course.title}</h5>
+                                        <p class="card-text">${course.description}</p>
+                                        <p class="card-text">Instructor: ${course.instructorName}</p>
+                                        <p class="card-text">Enrollments: ${course.totalEnrollments}</p>
+                                        <p class="card-text">Average Rating: ${course.averageRating}</p>
+                                        <p class="card-text">Creation Date: ${course.creationDate}</p>
+                                        <button class="btn btn-warning btn-sm updateCourseBtn"
+                                                data-id="${course.id}"
+                                                data-name="${course.title}"
+                                                data-description="${course.description}"
+                                                data-instructor="${course.instructorName}"
+                                                data-toggle="modal"
+                                                data-target="#updateCourseModal">
+                                            Update
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `);
+                    });
+                } else {
+                    alert('No courses found.');
                 }
+            }).fail(function () {
+                alert('Failed to fetch courses.');
+            });
+        }
+
+        // Combined search functionality
+        $('#searchCourses').click(function () {
+            let searchCriteria = $('#searchCriteria').val();
+            let searchQuery = $('#searchQuery').val();
+            let endpoint;
+
+            switch (searchCriteria) {
+                case 'title':
+                    endpoint = `/course/get-course-by-name/${searchQuery}`;
+                    break;
+                case 'category':
+                    endpoint = `/course/get-course-by-category-name/${searchQuery}`;
+                    break;
+                case 'instructor':
+                    endpoint = `/course/get-course-by-instructor-name/${searchQuery}`;
+                    break;
+                case 'student':
+                    endpoint = `/course/get-course-by-student-name/${searchQuery}`;
+                    break;
+                default:
+                    return;
+            }
+
+            $.get(endpoint, function (data) {
+                displaySearchResults(data);
+            }).fail(function () {
+                $('#searchResults').html('<div class="alert alert-warning">No courses found for this search</div>');
             });
         });
 
-        $('#updateCourse').click(function() {
-            let courseName = $('#updateCourseName').val();
-            let courseCategory = $('#updateCourseCategory').val();
-            let courseInstructor = $('#updateCourseInstructor').val();
+        function displaySearchResults(data) {
+            let searchResultsContainer = $('#searchResults');
+            searchResultsContainer.empty(); // Clear previous results
+            if (data.data && data.data.length > 0) {
+                data.data.forEach(course => {
+                    searchResultsContainer.append(`
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">${course.title}</h5>
+                                <p class="card-text">${course.description}</p>
+                                <p class="card-text">Instructor: ${course.instructorName}</p>
+                                <p class="card-text">Enrollments: ${course.totalEnrollments}</p>
+                                <p class="card-text">Average Rating: ${course.averageRating}</p>
+                                <p class="card-text">Creation Date: ${course.creationDate}</p>
+                                <button class="btn btn-warning btn-sm updateCourseBtn"
+                                        data-id="${course.id}"
+                                        data-name="${course.title}"
+                                        data-description="${course.description}"
+                                        data-instructor="${course.instructorName}"
+                                        data-toggle="modal"
+                                        data-target="#updateCourseModal">
+                                    Update
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    `);
+                });
+            } else {
+                searchResultsContainer.html('<div class="alert alert-warning">No courses found</div>');
+            }
+        }
+
+        // Populate update modal with course data
+        $(document).on('click', '.updateCourseBtn', function () {
+            $('#updateCourseTitle').val($(this).data('name'));
+            $('#updateCourseDescription').val($(this).data('description'));
+            $('#updateCourseInstructor').val($(this).data('instructorName'));
+            $('#updateCourse').data('id', $(this).data('id'));
+        });
+
+        // Update course
+        $('#updateCourse').click(function () {
+            const id = $(this).data('id');
+            const title = $('#updateCourseTitle').val();
+            const description = $('#updateCourseDescription').val();
+            const instructor = $('#updateCourseInstructor').val();
             $.ajax({
-                url: '/course/update-course',
+                url: `/course/update-course`,
                 type: 'PUT',
                 contentType: 'application/json',
-                data: JSON.stringify({ name: courseName, category: courseCategory, instructor: courseInstructor }),
-                success: function(data) {
-                    $('#result').html(`<div class="alert alert-success">${data.message}</div>`);
+                data: JSON.stringify({id, title, description, instructor}),
+                success: function () {
+                    $('#updateCourseModal').modal('hide');
+                    fetchCourses();
                 },
-                error: function(response) {
-                    $('#result').html(`<div class="alert alert-danger">Failed to update Course: ${response.responseJSON.message}</div>`);
+                error: function () {
+                    alert('Failed to update course.');
                 }
             });
         });
     });
 </script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

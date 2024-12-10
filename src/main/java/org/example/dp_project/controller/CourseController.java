@@ -27,7 +27,7 @@ public class CourseController {
         }
     }
 
-    @GetMapping("/get-all-course")
+    @GetMapping("/get-all-courses")
     public ResponseEntity<Response> getAllCourse() {
         try {
             courseService.getAllCourses();
@@ -55,10 +55,10 @@ public class CourseController {
         }
     }
 
-    @GetMapping(value = "/get-course-by-student-ig/{studentId}")
-    public ResponseEntity<Response> getCourseByStudentId(@PathVariable Long studentId) {
+    @GetMapping(value = "/get-course-by-student-name/{studentName}")
+    public ResponseEntity<Response> getCourseByStudentName(@PathVariable String studentName) {
         try {
-            return ResponseEntity.ok(new Response("Successfully get Courses.", courseService.getCoursesByStudentId(studentId)));
+            return ResponseEntity.ok(new Response("Successfully get Courses.", courseService.getCoursesByStudentName(studentName)));
         } catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("Failed to get Courses. " + exception.getMessage(), null));
         }

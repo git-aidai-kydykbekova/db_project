@@ -15,6 +15,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     boolean isNameExist(String name);
     @Query("SELECT c FROM Category c WHERE c.id = ?1")
     Optional<Category> findById(Long id);
-    @Query("SELECT c FROM Category c WHERE c.name = ?1")
+    @Query("SELECT c FROM Category c WHERE LOWER(c.name) = LOWER(?1)")
     Optional<Category> findByName(String name);
 }
