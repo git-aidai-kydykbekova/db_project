@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,6 +38,12 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course getCourseById(Long id) {
         return courseRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Course"));
+    }
+
+    @Override
+    public Course getCourseEntityByName(String name) {
+        return courseRepository.findByName(name)
                 .orElseThrow(() -> new ObjectNotFoundException("Course"));
     }
 
@@ -76,7 +83,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseDtoResponse updateCourse(CourseDtoRequest courseDtoRequest) {
         Course oldCourse = courseMapper.dtoToEntity(courseDtoRequest);
-        Course newCourse = getCourseById(courseDtoRequest.getId());
+        Course newCourse = getCourseEntityByName(courseDtoRequest.getCategoryName());
 
         if (!(oldCourse.getTitle() == null))
             newCourse.setTitle(oldCourse.getTitle());

@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface InstructorService {
     Instructor getInstructorById(Long id);
+    Instructor getInstructorEntityByName(String name);
+
     List<InstructorDto> getInstructorByName(String name);
     List<InstructorDto> getAllInstructors();
 

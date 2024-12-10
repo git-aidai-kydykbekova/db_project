@@ -1,7 +1,6 @@
 package org.example.dp_project.service.impl;
 
 import org.example.dp_project.dto.EnrollmentDto;
-import org.example.dp_project.dto.EnrollmentDtoRequest;
 import org.example.dp_project.entity.Enrollment;
 import org.example.dp_project.repository.EnrollmentRepository;
 import org.example.dp_project.service.EnrollmentService;
@@ -56,7 +55,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     }
 
     @Override
-    public EnrollmentDto createEnrollment(EnrollmentDtoRequest enrollmentDtoRequest) {
+    public EnrollmentDto createEnrollment(EnrollmentDto enrollmentDtoRequest) {
         return enrollmentMapper.entityToDto(save(enrollmentMapper.dtoToEntity(enrollmentDtoRequest)));
     }
 

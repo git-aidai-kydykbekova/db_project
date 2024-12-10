@@ -46,7 +46,7 @@ public class EnrollmentController {
     }
 
     @PostMapping(value = "/create-enrollment")
-    public ResponseEntity<Response> createFeedback(@RequestBody EnrollmentDtoRequest request) {
+    public ResponseEntity<Response> createFeedback(@RequestBody EnrollmentDto request) {
         try {
             EnrollmentDto enrollmentDto = enrollmentService.createEnrollment(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(new Response("Successfully created Enrollment.", enrollmentDto));

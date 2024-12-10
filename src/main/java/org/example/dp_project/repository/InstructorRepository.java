@@ -16,6 +16,8 @@ public interface InstructorRepository extends JpaRepository<Instructor, Long> {
     boolean isEmailExist(String email);
     @Query("SELECT i FROM Instructor i WHERE i.id = ?1")
     Optional<Instructor> findById(Long id);
+    @Query("SELECT i FROM Instructor i WHERE i.name = ?1")
+    Optional<Instructor> findByName(String name);
     @Query("SELECT i FROM Instructor i WHERE i.name LIKE %?1%")
     List<Instructor> findByNameContains(String title);
 }

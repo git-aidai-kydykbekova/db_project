@@ -43,6 +43,12 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public Student getStudentEntityByName(String name) {
+        return studentRepository.findByName(name)
+                .orElseThrow(() -> new ObjectNotFoundException("Student"));
+    }
+
+    @Override
     public List<StudentDto> getStudentByName(String name) {
         return studentMapper.entityToDtoList(studentRepository.findByNameContains(name));
     }
@@ -68,7 +74,7 @@ public class StudentServiceImpl implements StudentService {
     public StudentDto updateStudent(StudentDto studentDto) {
         isIdExist(studentDto.getId());
         Student oldStudent = studentMapper.dtoToEntity(studentDto);
-        Student newStudent = getStudentById(studentDto.getId());
+        Student newStudent = getStudentEntityByName(studentDto.getName());
 
         if (!newStudent.getEmail().equals(oldStudent.getEmail()))
             isEmailExist(oldStudent.getEmail());

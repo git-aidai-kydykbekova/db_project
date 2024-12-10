@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface CategoryService {
     Category getCategoryById(Long id);
+    Category getCategoryEntityByName(String name);
     CategoryDto getCategoryByName(String name);
     List<CategoryDto> getAllCategories();
 

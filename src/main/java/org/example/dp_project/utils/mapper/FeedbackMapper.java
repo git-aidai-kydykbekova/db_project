@@ -1,7 +1,6 @@
 package org.example.dp_project.utils.mapper;
 
 import org.example.dp_project.dto.FeedbackDto;
-import org.example.dp_project.dto.FeedbackDtoRequest;
 import org.example.dp_project.entity.Feedback;
 import org.example.dp_project.service.CourseService;
 import org.example.dp_project.service.StudentService;
@@ -26,9 +25,7 @@ public class FeedbackMapper {
         feedbackDto.setComment(feedback.getComment());
         feedbackDto.setFeedbackDate(feedback.getFeedbackDate());
         feedbackDto.setRating(feedback.getRating());
-        feedbackDto.setCourseId(feedback.getFeedbackCourse().getId());
         feedbackDto.setCourseName(feedback.getFeedbackCourse().getTitle());
-        feedbackDto.setStudentId(feedback.getFeedbackStudent().getId());
         feedbackDto.setStudentName(feedback.getFeedbackStudent().getName());
         return feedbackDto;
     }
@@ -37,14 +34,14 @@ public class FeedbackMapper {
         return feedbacks.stream().map(this::entityToDto).collect(Collectors.toList());
     }
 
-    public Feedback dtoToEntity (FeedbackDtoRequest feedbackDtoRequest) {
+    public Feedback dtoToEntity (FeedbackDto feedbackDto) {
         Feedback feedback = new Feedback();
-        feedback.setId(feedbackDtoRequest.getId());
-        feedback.setComment(feedbackDtoRequest.getComment());
-        feedback.setFeedbackDate(feedbackDtoRequest.getFeedbackDate());
-        feedback.setRating(feedbackDtoRequest.getRating());
-        feedback.setFeedbackCourse(courseService.getCourseById(feedbackDtoRequest.getCourseId()));
-        feedback.setFeedbackStudent(studentService.getStudentById(feedbackDtoRequest.getStudentId()));
+        feedback.setId(feedbackDto.getId());
+        feedback.setComment(feedbackDto.getComment());
+        feedback.setFeedbackDate(feedbackDto.getFeedbackDate());
+        feedback.setRating(feedbackDto.getRating());
+        feedback.setFeedbackCourse(courseService.getCourseEntityByName(feedbackDto.getCourseName()));
+        feedback.setFeedbackStudent(studentService.getStudentEntityByName(feedbackDto.getStudentName()));
         return feedback;
     }
 }

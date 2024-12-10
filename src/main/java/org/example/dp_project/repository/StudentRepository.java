@@ -16,6 +16,8 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     boolean isEmailExist(String name);
     @Query("SELECT s FROM Student s WHERE s.id = ?1")
     Optional<Student> findById(Long id);
+    @Query("SELECT s FROM Student s WHERE s.name = ?1")
+    Optional<Student> findByName(String name);
     @Query("SELECT s FROM Student s WHERE s.name LIKE %?1%")
     List<Student> findByNameContains(String name);
     @Query("SELECT s FROM Student s JOIN Enrollment e ON s.id = e.enrollmentStudent.id WHERE e.enrollmentCourse.id = ?1")

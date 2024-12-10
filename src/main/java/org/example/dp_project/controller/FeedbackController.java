@@ -46,7 +46,7 @@ public class FeedbackController {
     }
 
     @PostMapping(value = "/create-feedback")
-    public ResponseEntity<Response> createFeedback(@RequestBody FeedbackDtoRequest request) {
+    public ResponseEntity<Response> createFeedback(@RequestBody FeedbackDto request) {
         try {
             FeedbackDto feedbackDtoResponse = feedbackService.createFeedback(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(new Response("Successfully created Feedback.", feedbackDtoResponse));
@@ -56,7 +56,7 @@ public class FeedbackController {
     }
 
     @PutMapping(value = "/update-feedback")
-    public ResponseEntity<Response> updateFeedback(@RequestBody FeedbackDtoRequest request) {
+    public ResponseEntity<Response> updateFeedback(@RequestBody FeedbackDto request) {
         try {
             FeedbackDto feedbackDtoResponse = feedbackService.updateFeedback(request);
             return ResponseEntity.ok(new Response("Updated Feedback successfully.", feedbackDtoResponse));

@@ -55,12 +55,12 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public FeedbackDto createFeedback(FeedbackDtoRequest feedbackDtoRequest) {
+    public FeedbackDto createFeedback(FeedbackDto feedbackDtoRequest) {
         return feedbackMapper.entityToDto(save(feedbackMapper.dtoToEntity(feedbackDtoRequest)));
     }
 
     @Override
-    public FeedbackDto updateFeedback(FeedbackDtoRequest feedbackDtoRequest) {
+    public FeedbackDto updateFeedback(FeedbackDto feedbackDtoRequest) {
         Feedback oldFeedback = feedbackMapper.dtoToEntity(feedbackDtoRequest);
         Feedback newFeedback = getFeedbackById(feedbackDtoRequest.getId());
 

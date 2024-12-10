@@ -1,6 +1,7 @@
 package org.example.dp_project.service.impl;
 
 import org.example.dp_project.dto.InstructorDto;
+import org.example.dp_project.entity.Course;
 import org.example.dp_project.entity.Instructor;
 import org.example.dp_project.repository.InstructorRepository;
 import org.example.dp_project.service.InstructorService;
@@ -44,6 +45,12 @@ public class InstructorServiceImpl implements InstructorService {
     }
 
     @Override
+    public Instructor getInstructorEntityByName(String name) {
+        return instructorRepository.findByName(name)
+                .orElseThrow(() -> new ObjectNotFoundException("Instructor"));
+    }
+
+    @Override
     public List<InstructorDto> getInstructorByName(String name) {
         return instructorMapper.entityToDtoList(instructorRepository.findByNameContains(name));
     }
@@ -63,7 +70,7 @@ public class InstructorServiceImpl implements InstructorService {
     @Override
     public InstructorDto updateInstructor(InstructorDto instructorDto) {
         Instructor oldInstructor = instructorMapper.dtoToEntity(instructorDto);
-        Instructor newInstructor = getInstructorById(instructorDto.getId());
+        Instructor newInstructor = getInstructorEntityByName(instructorDto.getName());
 
         if (!newInstructor.getEmail().equals(oldInstructor.getEmail()))
             isEmailExist(oldInstructor.getEmail());

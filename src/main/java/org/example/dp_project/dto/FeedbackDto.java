@@ -6,9 +6,7 @@ public class FeedbackDto {
     private Double rating;
     private String comment;
     private Timestamp feedbackDate;
-    private Long studentId;
     private String studentName;
-    private Long courseId;
     private String courseName;
 
     public FeedbackDto() {}
@@ -46,24 +44,6 @@ public class FeedbackDto {
 
     public FeedbackDto setFeedbackDate(Timestamp feedbackDate) {
         this.feedbackDate = feedbackDate;
-        return this;
-    }
-
-    public Long getStudentId() {
-        return studentId;
-    }
-
-    public FeedbackDto setStudentId(Long studentId) {
-        this.studentId = studentId;
-        return this;
-    }
-
-    public Long getCourseId() {
-        return courseId;
-    }
-
-    public FeedbackDto setCourseId(Long courseId) {
-        this.courseId = courseId;
         return this;
     }
 

@@ -52,8 +52,8 @@ public class CourseMapper {
         course.setDescription(courseDtoRequest.getDescription());
         course.setDuration(courseDtoRequest.getDuration());
         course.setPrice(courseDtoRequest.getPrice());
-        course.setInstructor(instructorService.getInstructorById(courseDtoRequest.getInstructorId()));
-        course.setCategory(categoryService.getCategoryById(courseDtoRequest.getCategoryId()));
+        course.setInstructor(instructorService.getInstructorEntityByName(courseDtoRequest.getInstructorName()));
+        course.setCategory(categoryService.getCategoryEntityByName(courseDtoRequest.getCategoryName()));
         course.setCreationDate(course.getCreationDate());
         return course;
     }

@@ -1,7 +1,6 @@
 package org.example.dp_project.utils.mapper;
 
 import org.example.dp_project.dto.EnrollmentDto;
-import org.example.dp_project.dto.EnrollmentDtoRequest;
 import org.example.dp_project.entity.Enrollment;
 import org.example.dp_project.service.CourseService;
 import org.example.dp_project.service.StudentService;
@@ -25,9 +24,7 @@ public class EnrollmentMapper {
         enrollmentDto.setId(enrollment.getId());
         enrollmentDto.setEnrollmentDate(enrollment.getEnrollmentDate());
         enrollmentDto.setCompletionStatus(enrollment.getCompletionStatus());
-        enrollmentDto.setCourseId(enrollment.getEnrollmentCourse().getId());
         enrollmentDto.setCourseName(enrollment.getEnrollmentCourse().getTitle());
-        enrollmentDto.setStudentId(enrollment.getEnrollmentStudent().getId());
         enrollmentDto.setCourseCategory(enrollment.getEnrollmentCourse().getCourseCategory().getName());
         enrollmentDto.setStudentName(enrollment.getEnrollmentStudent().getName());
         return enrollmentDto;
@@ -37,14 +34,14 @@ public class EnrollmentMapper {
         return enrollments.stream().map(this::entityToDto).collect(Collectors.toList());
     }
 
-    public Enrollment dtoToEntity (EnrollmentDtoRequest enrollmentDtoRequest) {
+    public Enrollment dtoToEntity (EnrollmentDto enrollmentDto) {
         Enrollment enrollment = new Enrollment();
-        enrollment.setId(enrollmentDtoRequest.getId());
-        enrollment.setEnrollmentDate(enrollmentDtoRequest.getEnrollmentDate());
-        enrollment.setEnrollmentDate(enrollmentDtoRequest.getEnrollmentDate());
-        enrollment.setCompletionStatus(enrollmentDtoRequest.getCompletionStatus());
-        enrollment.setEnrollmentCourse(courseService.getCourseById(enrollmentDtoRequest.getCourseId()));
-        enrollment.setEnrollmentStudent(studentService.getStudentById(enrollmentDtoRequest.getStudentId()));
+        enrollment.setId(enrollmentDto.getId());
+        enrollment.setEnrollmentDate(enrollmentDto.getEnrollmentDate());
+        enrollment.setEnrollmentDate(enrollmentDto.getEnrollmentDate());
+        enrollment.setCompletionStatus(enrollmentDto.getCompletionStatus());
+        enrollment.setEnrollmentCourse(courseService.getCourseEntityByName(enrollmentDto.getCourseName()));
+        enrollment.setEnrollmentStudent(studentService.getStudentEntityByName(enrollmentDto.getStudentName()));
         return enrollment;
     }
 }

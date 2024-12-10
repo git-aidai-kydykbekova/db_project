@@ -44,6 +44,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Category getCategoryEntityByName(String name) {
+        return categoryRepository.findByName(name)
+                .orElseThrow(() -> new ObjectNotFoundException("Category"));
+    }
+
+    @Override
     public CategoryDto getCategoryByName(String name) {
         return categoryMapper.entityToDto(categoryRepository.findByName(name)
                 .orElseThrow(() -> new ObjectNotFoundException("Category")));
@@ -64,7 +70,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto updateCategory(CategoryDto categoryDto) {
         Category oldCategory = categoryMapper.dtoToEntity(categoryDto);
-        Category newCategory = getCategoryById(categoryDto.getId());
+        Category newCategory = getCategoryEntityByName(categoryDto.getName());
 
         if (!newCategory.getName().equals(oldCategory.getName()))
             isNameExist(oldCategory.getName());

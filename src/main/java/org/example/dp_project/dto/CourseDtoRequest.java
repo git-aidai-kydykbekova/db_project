@@ -6,8 +6,8 @@ public class CourseDtoRequest {
     private String description;
     private Integer duration;
     private Integer price;
-    private Long instructorId;
-    private Long categoryId;
+    private String instructorName;
+    private String categoryName;
 
     public CourseDtoRequest() {}
 
@@ -56,21 +56,21 @@ public class CourseDtoRequest {
         return this;
     }
 
-    public Long getInstructorId() {
-        return instructorId;
+    public String getInstructorName() {
+        return instructorName;
     }
 
-    public CourseDtoRequest setInstructorId(Long instructorId) {
-        this.instructorId = instructorId;
+    public CourseDtoRequest setInstructorName(String instructorName) {
+        this.instructorName = instructorName;
         return this;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public CourseDtoRequest setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
+    public CourseDtoRequest setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
         return this;
     }
 }
