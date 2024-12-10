@@ -1,6 +1,6 @@
 package org.example.dp_project.repository;
 
-import org.example.dp_project.entity.Course;
+import org.example.database_project.entity.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -20,4 +20,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     List<Course> findCoursesByCategoryName(String categoryName);
     @Query("SELECT c FROM Course c WHERE c.courseInstructor.id = (SELECT id FROM Instructor WHERE name = ?1)")
     List<Course> findCoursesByInstructorName(String instructorName);
+    @Query("SELECT c FROM Course c JOIN Enrollment e ON c.id = e.enrollmentCourse.id WHERE e.enrollmentStudent.id = ?1")
+    List<Course> findCourseByStudentId(Long studentId);
 }

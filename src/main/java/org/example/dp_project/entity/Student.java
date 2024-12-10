@@ -3,11 +3,10 @@ package org.example.dp_project.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
-@Table(name = "instructor")
-public class Instructor {
+@Table(name= "student")
+public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,16 +17,13 @@ public class Instructor {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "bio")
-    private String bio;
+    @Column(name = "date_of_birth")
+    private LocalDate dateOfBirth;
 
     @Column(name = "registration_date")
     private LocalDate registrationDate;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "courseInstructor")
-    private List<Course> instructorCourses;
-
-    public Instructor() {}
+    public Student() {}
 
     @PrePersist
     private void prePersist() {
@@ -38,7 +34,7 @@ public class Instructor {
         return id;
     }
 
-    public Instructor setId(Long id) {
+    public Student setId(Long id) {
         this.id = id;
         return this;
     }
@@ -47,7 +43,7 @@ public class Instructor {
         return name;
     }
 
-    public Instructor setName(String name) {
+    public Student setName(String name) {
         this.name = name;
         return this;
     }
@@ -56,17 +52,17 @@ public class Instructor {
         return email;
     }
 
-    public Instructor setEmail(String email) {
+    public Student setEmail(String email) {
         this.email = email;
         return this;
     }
 
-    public String getBio() {
-        return bio;
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public Instructor setBio(String bio) {
-        this.bio = bio;
+    public Student setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
         return this;
     }
 
@@ -74,17 +70,8 @@ public class Instructor {
         return registrationDate;
     }
 
-    public Instructor setRegistrationDate(LocalDate registrationDate) {
+    public Student setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
-        return this;
-    }
-
-    public List<Course> getInstructorCourses() {
-        return instructorCourses;
-    }
-
-    public Instructor setInstructorCourses(List<Course> instructorCourses) {
-        this.instructorCourses = instructorCourses;
         return this;
     }
 }

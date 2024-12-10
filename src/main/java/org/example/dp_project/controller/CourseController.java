@@ -1,14 +1,13 @@
 package org.example.dp_project.controller;
 
-
-import org.example.dp_project.dto.CourseDtoRequest;
-import org.example.dp_project.dto.CourseDtoResponse;
-import org.example.dp_project.dto.Response;
-import org.example.dp_project.service.CourseService;
-import org.example.dp_project.utils.exception.ObjectNotFoundException;
+import org.example.database_project.dto.*;
+import org.example.database_project.service.CourseService;
+import org.example.database_project.utils.exception.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/course")
@@ -56,6 +55,15 @@ public class CourseController {
         }
     }
 
+    @GetMapping(value = "/get-course-by-student-ig/{studentId}")
+    public ResponseEntity<Response> getCourseByStudentId(@PathVariable Long studentId) {
+        try {
+            return ResponseEntity.ok(new Response("Successfully get Courses.", courseService.getCoursesByStudentId(studentId)));
+        } catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("Failed to get Courses. " + exception.getMessage(), null));
+        }
+    }
+
     @PostMapping(value = "/create-course")
     public ResponseEntity<Response> createCourse(@RequestBody CourseDtoRequest request) {
         try {
@@ -73,6 +81,42 @@ public class CourseController {
             return ResponseEntity.ok(new Response("Updated Course successfully.", courseDtoResponse));
         } catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("Course is not updated. " + exception.getMessage(), null));
+        }
+    }
+
+    @GetMapping(value = "/sort-by-duration")
+    public ResponseEntity<Response> sortByDuration(@RequestBody List<CourseDtoResponse> courseDtoResponses) {
+        try {
+            return ResponseEntity.ok(new Response("Successfully get Courses.", courseService.sortByDuration(courseDtoResponses)));
+        } catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("Failed to get Courses. " + exception.getMessage(), null));
+        }
+    }
+
+    @GetMapping(value = "/sort-by-price")
+    public ResponseEntity<Response> sortByPrice(@RequestBody List<CourseDtoResponse> courseDtoResponses) {
+        try {
+            return ResponseEntity.ok(new Response("Successfully get Courses.", courseService.sortByPrice(courseDtoResponses)));
+        } catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("Failed to get Courses. " + exception.getMessage(), null));
+        }
+    }
+
+    @GetMapping(value = "/sort-by-enrollments")
+    public ResponseEntity<Response> sortByEnrollments(@RequestBody List<CourseDtoResponse> courseDtoResponses) {
+        try {
+            return ResponseEntity.ok(new Response("Successfully get Courses.", courseService.sortByEnrollments(courseDtoResponses)));
+        } catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("Failed to get Courses. " + exception.getMessage(), null));
+        }
+    }
+
+    @GetMapping(value = "/sort-by-rating")
+    public ResponseEntity<Response> sortByRating(@RequestBody List<CourseDtoResponse> courseDtoResponses) {
+        try {
+            return ResponseEntity.ok(new Response("Successfully get Courses.", courseService.sortByRating(courseDtoResponses)));
+        } catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("Failed to get Courses. " + exception.getMessage(), null));
         }
     }
 }

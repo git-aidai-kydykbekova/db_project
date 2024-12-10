@@ -1,16 +1,18 @@
 package org.example.dp_project.service.impl;
 
-import org.example.dp_project.dto.CourseDtoRequest;
-import org.example.dp_project.dto.CourseDtoResponse;
-import org.example.dp_project.entity.Course;
-import org.example.dp_project.repository.CourseRepository;
-import org.example.dp_project.service.CourseService;
-import org.example.dp_project.utils.exception.AlreadyExistException;
-import org.example.dp_project.utils.exception.ObjectNotFoundException;
-import org.example.dp_project.utils.mapper.CourseMapper;
+import org.example.database_project.dto.CourseDtoRequest;
+import org.example.database_project.dto.CourseDtoResponse;
+import org.example.database_project.entity.Course;
+import org.example.database_project.repository.CourseRepository;
+import org.example.database_project.service.CourseService;
+import org.example.database_project.utils.exception.AlreadyExistException;
+import org.example.database_project.utils.exception.ObjectNotFoundException;
+import org.example.database_project.utils.mapper.CourseMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -59,6 +61,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public List<CourseDtoResponse> getCoursesByStudentId(Long studentId) {
+        return courseMapper.entityToDtoList(courseRepository.findCourseByStudentId(studentId));
+    }
+
+    @Override
     public CourseDtoResponse createCourse(CourseDtoRequest courseDtoRequest) {
         Course course = courseMapper.dtoToEntity(courseDtoRequest);
         course.setAverageRating(0.0F);
@@ -85,5 +92,33 @@ public class CourseServiceImpl implements CourseService {
             newCourse.setCategory(oldCourse.getCategory());
 
         return courseMapper.entityToDto(save(newCourse));
+    }
+
+    @Override
+    public List<CourseDtoResponse> sortByDuration(List<CourseDtoResponse> courseDtoResponseList) {
+        return courseDtoResponseList.stream()
+                .sorted(Comparator.comparingInt(CourseDtoResponse::getDuration))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CourseDtoResponse> sortByPrice(List<CourseDtoResponse> courseDtoResponseList) {
+        return courseDtoResponseList.stream()
+                .sorted(Comparator.comparingDouble(CourseDtoResponse::getPrice))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CourseDtoResponse> sortByEnrollments(List<CourseDtoResponse> courseDtoResponseList) {
+        return courseDtoResponseList.stream()
+                .sorted(Comparator.comparingInt(CourseDtoResponse::getTotalEnrollments))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CourseDtoResponse> sortByRating(List<CourseDtoResponse> courseDtoResponseList) {
+        return courseDtoResponseList.stream()
+                .sorted(Comparator.comparingDouble(CourseDtoResponse::getAverageRating).reversed())
+                .collect(Collectors.toList());
     }
 }

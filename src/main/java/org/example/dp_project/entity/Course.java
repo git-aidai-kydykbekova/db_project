@@ -3,6 +3,7 @@ package org.example.dp_project.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "course")
@@ -39,6 +40,12 @@ public class Course {
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category courseCategory;
+
+    @OneToMany(mappedBy = "feedbackCourse")
+    List<Feedback> courseFeedbacks;
+
+    @OneToMany(mappedBy = "enrollmentCourse")
+    List<Enrollment> courseEnrollments;
 
     public Course() {}
 
@@ -134,6 +141,42 @@ public class Course {
 
     public Course setCategory(Category courseCategory) {
         this.courseCategory = courseCategory;
+        return this;
+    }
+
+    public Instructor getCourseInstructor() {
+        return courseInstructor;
+    }
+
+    public Course setCourseInstructor(Instructor courseInstructor) {
+        this.courseInstructor = courseInstructor;
+        return this;
+    }
+
+    public Category getCourseCategory() {
+        return courseCategory;
+    }
+
+    public Course setCourseCategory(Category courseCategory) {
+        this.courseCategory = courseCategory;
+        return this;
+    }
+
+    public List<Feedback> getCourseFeedbacks() {
+        return courseFeedbacks;
+    }
+
+    public Course setCourseFeedbacks(List<Feedback> courseFeedbacks) {
+        this.courseFeedbacks = courseFeedbacks;
+        return this;
+    }
+
+    public List<Enrollment> getCourseEnrollments() {
+        return courseEnrollments;
+    }
+
+    public Course setCourseEnrollments(List<Enrollment> courseEnrollments) {
+        this.courseEnrollments = courseEnrollments;
         return this;
     }
 }

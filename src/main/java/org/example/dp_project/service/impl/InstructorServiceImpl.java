@@ -1,12 +1,12 @@
 package org.example.dp_project.service.impl;
 
-import org.example.dp_project.dto.InstructorDto;
-import org.example.dp_project.entity.Instructor;
-import org.example.dp_project.repository.InstructorRepository;
-import org.example.dp_project.service.InstructorService;
-import org.example.dp_project.utils.exception.AlreadyExistException;
-import org.example.dp_project.utils.exception.ObjectNotFoundException;
-import org.example.dp_project.utils.mapper.InstructorMapper;
+import org.example.database_project.dto.InstructorDto;
+import org.example.database_project.entity.Instructor;
+import org.example.database_project.repository.InstructorRepository;
+import org.example.database_project.service.InstructorService;
+import org.example.database_project.utils.exception.AlreadyExistException;
+import org.example.database_project.utils.exception.ObjectNotFoundException;
+import org.example.database_project.utils.mapper.InstructorMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

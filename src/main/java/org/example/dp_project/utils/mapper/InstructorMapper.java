@@ -1,7 +1,7 @@
 package org.example.dp_project.utils.mapper;
 
-import org.example.dp_project.dto.InstructorDto;
-import org.example.dp_project.entity.Instructor;
+import org.example.database_project.dto.InstructorDto;
+import org.example.database_project.entity.Instructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

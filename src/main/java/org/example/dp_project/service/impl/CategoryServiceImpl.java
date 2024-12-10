@@ -1,12 +1,12 @@
 package org.example.dp_project.service.impl;
 
-import org.example.dp_project.dto.CategoryDto;
-import org.example.dp_project.entity.Category;
-import org.example.dp_project.repository.CategoryRepository;
-import org.example.dp_project.service.CategoryService;
-import org.example.dp_project.utils.exception.AlreadyExistException;
-import org.example.dp_project.utils.exception.ObjectNotFoundException;
-import org.example.dp_project.utils.mapper.CategoryMapper;
+import org.example.database_project.dto.CategoryDto;
+import org.example.database_project.entity.Category;
+import org.example.database_project.repository.CategoryRepository;
+import org.example.database_project.service.CategoryService;
+import org.example.database_project.utils.exception.AlreadyExistException;
+import org.example.database_project.utils.exception.ObjectNotFoundException;
+import org.example.database_project.utils.mapper.CategoryMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
