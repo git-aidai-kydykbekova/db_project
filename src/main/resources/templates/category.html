@@ -4,6 +4,7 @@
     <title>Category Management</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.13.0/beautify.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -22,12 +23,16 @@
     <div class="form-group">
         <label for="newCategoryName">New Category Name</label>
         <input type="text" class="form-control" id="newCategoryName" placeholder="Enter new category name">
+        <label for="newCategoryDescription">New Category Description</label>
+        <input type="text" class="form-control" id="newCategoryDescription" placeholder="Enter new category description">
         <button id="createCategory" class="btn btn-success mt-2">Create Category</button>
     </div>
 
     <div class="form-group">
         <label for="updateCategoryName">Update Category Name</label>
         <input type="text" class="form-control" id="updateCategoryName" placeholder="Enter updated category name">
+        <label for="updateCategoryDescription">Update Category Description</label>
+        <input type="text" class="form-control" id="updateCategoryDescription" placeholder="Enter updated category description">
         <button id="updateCategory" class="btn btn-warning mt-2">Update Category</button>
     </div>
 
@@ -39,7 +44,7 @@
         $('#getCategoryByName').click(function() {
             let categoryName = $('#categoryName').val();
             $.get(`/category/get-category-by-name/${categoryName}`, function(data) {
-                $('#result').html(`<div class="alert alert-info">${JSON.stringify(data)}</div>`);
+                $('#result').html(`<div class="alert alert-info">${formatJson(data)}</div>`);
             }).fail(function(response) {
                 $('#result').html(`<div class="alert alert-danger">Failed to get Category: ${response.responseJSON.message}</div>`);
             });
@@ -47,7 +52,7 @@
 
         $('#getAllCategories').click(function() {
             $.get(`/category/get-all-category`, function(data) {
-                $('#result').html(`<div class="alert alert-info">${JSON.stringify(data)}</div>`);
+                $('#result').html(`<div class="alert alert-info">${formatJson(data)}</div>`);
             }).fail(function(response) {
                 $('#result').html(`<div class="alert alert-danger">Failed to get all Categories: ${response.responseJSON.message}</div>`);
             });
@@ -55,11 +60,12 @@
 
         $('#createCategory').click(function() {
             let categoryName = $('#newCategoryName').val();
+            let categoryDescription = $('#newCategoryDescription').val();
             $.ajax({
                 url: '/category/create-category',
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({ name: categoryName }),
+                data: JSON.stringify({ name: categoryName, description: categoryDescription }),
                 success: function(data) {
                     $('#result').html(`<div class="alert alert-success">${data.message}</div>`);
                 },
@@ -71,11 +77,12 @@
 
         $('#updateCategory').click(function() {
             let categoryName = $('#updateCategoryName').val();
+            let categoryDescription = $('#updateCategoryDescription').val();
             $.ajax({
                 url: '/category/update-category',
                 type: 'PUT',
                 contentType: 'application/json',
-                data: JSON.stringify({ name: categoryName }),
+                data: JSON.stringify({ name: categoryName, description: categoryDescription }),
                 success: function(data) {
                     $('#result').html(`<div class="alert alert-success">${data.message}</div>`);
                 },
@@ -85,6 +92,10 @@
             });
         });
     });
+
+    function formatJson(json) {
+        return `<pre>${js_beautify(JSON.stringify(json, null, 4))}</pre>`;
+    }
 </script>
 </body>
 </html>
