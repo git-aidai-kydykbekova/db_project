@@ -1,9 +1,9 @@
 package org.example.dp_project.controller;
 
-import org.example.database_project.dto.Response;
-import org.example.database_project.dto.StudentDto;
-import org.example.database_project.service.StudentService;
-import org.example.database_project.utils.exception.ObjectNotFoundException;
+import org.example.dp_project.dto.Response;
+import org.example.dp_project.dto.StudentDto;
+import org.example.dp_project.service.StudentService;
+import org.example.dp_project.utils.exception.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

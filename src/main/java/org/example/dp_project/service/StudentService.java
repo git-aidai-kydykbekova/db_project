@@ -1,8 +1,8 @@
 package org.example.dp_project.service;
 
 
-import org.example.database_project.dto.StudentDto;
-import org.example.database_project.entity.Student;
+import org.example.dp_project.dto.StudentDto;
+import org.example.dp_project.entity.Student;
 
 import java.util.List;
 

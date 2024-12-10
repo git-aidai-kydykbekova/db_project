@@ -1,12 +1,12 @@
 package org.example.dp_project.service.impl;
 
-import org.example.database_project.dto.StudentDto;
-import org.example.database_project.entity.Student;
-import org.example.database_project.repository.StudentRepository;
-import org.example.database_project.service.StudentService;
-import org.example.database_project.utils.exception.AlreadyExistException;
-import org.example.database_project.utils.exception.ObjectNotFoundException;
-import org.example.database_project.utils.mapper.StudentMapper;
+import org.example.dp_project.dto.StudentDto;
+import org.example.dp_project.entity.Student;
+import org.example.dp_project.repository.StudentRepository;
+import org.example.dp_project.service.StudentService;
+import org.example.dp_project.utils.exception.AlreadyExistException;
+import org.example.dp_project.utils.exception.ObjectNotFoundException;
+import org.example.dp_project.utils.mapper.StudentMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

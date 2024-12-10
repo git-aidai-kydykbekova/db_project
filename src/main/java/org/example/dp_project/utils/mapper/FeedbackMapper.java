@@ -1,10 +1,10 @@
 package org.example.dp_project.utils.mapper;
 
-import org.example.database_project.dto.FeedbackDto;
-import org.example.database_project.dto.FeedbackDtoRequest;
-import org.example.database_project.entity.Feedback;
-import org.example.database_project.service.CourseService;
-import org.example.database_project.service.StudentService;
+import org.example.dp_project.dto.FeedbackDto;
+import org.example.dp_project.dto.FeedbackDtoRequest;
+import org.example.dp_project.entity.Feedback;
+import org.example.dp_project.service.CourseService;
+import org.example.dp_project.service.StudentService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

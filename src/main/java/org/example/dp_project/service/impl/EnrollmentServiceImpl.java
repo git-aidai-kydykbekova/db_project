@@ -1,13 +1,13 @@
 package org.example.dp_project.service.impl;
 
-import org.example.database_project.dto.EnrollmentDto;
-import org.example.database_project.dto.EnrollmentDtoRequest;
-import org.example.database_project.entity.Enrollment;
-import org.example.database_project.repository.EnrollmentRepository;
-import org.example.database_project.service.EnrollmentService;
-import org.example.database_project.utils.exception.AlreadyExistException;
-import org.example.database_project.utils.exception.ObjectNotFoundException;
-import org.example.database_project.utils.mapper.EnrollmentMapper;
+import org.example.dp_project.dto.EnrollmentDto;
+import org.example.dp_project.dto.EnrollmentDtoRequest;
+import org.example.dp_project.entity.Enrollment;
+import org.example.dp_project.repository.EnrollmentRepository;
+import org.example.dp_project.service.EnrollmentService;
+import org.example.dp_project.utils.exception.AlreadyExistException;
+import org.example.dp_project.utils.exception.ObjectNotFoundException;
+import org.example.dp_project.utils.mapper.EnrollmentMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;

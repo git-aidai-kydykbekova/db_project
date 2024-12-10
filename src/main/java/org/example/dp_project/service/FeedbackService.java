@@ -1,8 +1,8 @@
 package org.example.dp_project.service;
 
-import org.example.database_project.dto.FeedbackDto;
-import org.example.database_project.dto.FeedbackDtoRequest;
-import org.example.database_project.entity.Feedback;
+import org.example.dp_project.dto.FeedbackDto;
+import org.example.dp_project.dto.FeedbackDtoRequest;
+import org.example.dp_project.entity.Feedback;
 
 import java.util.List;
 

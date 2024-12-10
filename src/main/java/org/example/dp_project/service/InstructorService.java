@@ -1,8 +1,8 @@
 package org.example.dp_project.service;
 
 
-import org.example.database_project.dto.InstructorDto;
-import org.example.database_project.entity.Instructor;
+import org.example.dp_project.dto.InstructorDto;
+import org.example.dp_project.entity.Instructor;
 
 import java.util.List;
 

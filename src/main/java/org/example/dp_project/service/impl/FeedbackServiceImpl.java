@@ -1,12 +1,12 @@
 package org.example.dp_project.service.impl;
 
-import org.example.database_project.dto.*;
-import org.example.database_project.entity.Feedback;
-import org.example.database_project.repository.FeedbackRepository;
-import org.example.database_project.service.FeedbackService;
-import org.example.database_project.utils.exception.AlreadyExistException;
-import org.example.database_project.utils.exception.ObjectNotFoundException;
-import org.example.database_project.utils.mapper.FeedbackMapper;
+import org.example.dp_project.dto.*;
+import org.example.dp_project.entity.Feedback;
+import org.example.dp_project.repository.FeedbackRepository;
+import org.example.dp_project.service.FeedbackService;
+import org.example.dp_project.utils.exception.AlreadyExistException;
+import org.example.dp_project.utils.exception.ObjectNotFoundException;
+import org.example.dp_project.utils.mapper.FeedbackMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;

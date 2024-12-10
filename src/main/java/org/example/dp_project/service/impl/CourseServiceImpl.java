@@ -1,13 +1,13 @@
 package org.example.dp_project.service.impl;
 
-import org.example.database_project.dto.CourseDtoRequest;
-import org.example.database_project.dto.CourseDtoResponse;
-import org.example.database_project.entity.Course;
-import org.example.database_project.repository.CourseRepository;
-import org.example.database_project.service.CourseService;
-import org.example.database_project.utils.exception.AlreadyExistException;
-import org.example.database_project.utils.exception.ObjectNotFoundException;
-import org.example.database_project.utils.mapper.CourseMapper;
+import org.example.dp_project.dto.CourseDtoRequest;
+import org.example.dp_project.dto.CourseDtoResponse;
+import org.example.dp_project.entity.Course;
+import org.example.dp_project.repository.CourseRepository;
+import org.example.dp_project.service.CourseService;
+import org.example.dp_project.utils.exception.AlreadyExistException;
+import org.example.dp_project.utils.exception.ObjectNotFoundException;
+import org.example.dp_project.utils.mapper.CourseMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;

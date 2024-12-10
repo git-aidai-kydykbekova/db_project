@@ -1,8 +1,8 @@
 package org.example.dp_project.service;
 
-import org.example.database_project.dto.CourseDtoRequest;
-import org.example.database_project.dto.CourseDtoResponse;
-import org.example.database_project.entity.Course;
+import org.example.dp_project.dto.CourseDtoRequest;
+import org.example.dp_project.dto.CourseDtoResponse;
+import org.example.dp_project.entity.Course;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
 package org.example.dp_project.utils.mapper;
 
-import org.example.database_project.dto.EnrollmentDto;
-import org.example.database_project.dto.EnrollmentDtoRequest;
-import org.example.database_project.entity.Enrollment;
-import org.example.database_project.service.CourseService;
-import org.example.database_project.service.StudentService;
+import org.example.dp_project.dto.EnrollmentDto;
+import org.example.dp_project.dto.EnrollmentDtoRequest;
+import org.example.dp_project.entity.Enrollment;
+import org.example.dp_project.service.CourseService;
+import org.example.dp_project.service.StudentService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
