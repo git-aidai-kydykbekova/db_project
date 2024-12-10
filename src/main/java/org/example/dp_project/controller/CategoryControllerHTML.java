@@ -26,4 +26,9 @@ public class CategoryControllerHTML {
         return "student.html";
     }
 
+    @GetMapping("/feedback")
+    public String feedback() {
+        return "feedback.html";
+    }
+
 }
