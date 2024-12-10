@@ -21,4 +21,9 @@ public class CategoryControllerHTML {
         return "instructor.html";
     }
 
+    @GetMapping("/students")
+    public String students() {
+        return "student.html";
+    }
+
 }

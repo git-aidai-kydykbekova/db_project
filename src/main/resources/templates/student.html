@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Student Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.13.0/beautify.min.js"></script> <
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .alert-pretty-json {
+            white-space: pre;
+            text-align: left;
+        }
+        .card-columns {
+            column-count: 3;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center mb-4">Student Management</h1>
+
+    <div class="form-group">
+        <label for="studentName">Student Name</label>
+        <input type="text" class="form-control" id="studentName" placeholder="Enter student name">
+        <button id="getStudentByName" class="btn btn-primary mt-2">Get Student By Name</button>
+    </div>
+
+    <div class="form-group">
+        <label for="courseId">Course ID</label>
+        <input type="number" class="form-control" id="courseId" placeholder="Enter course ID">
+        <button id="getStudentByCourseId" class="btn btn-primary mt-2">Get Student By Course ID</button>
+    </div>
+
+    <div class="form-group">
+        <button id="getAllStudents" class="btn btn-primary mt-2">Get All Students</button>
+    </div>
+
+    <div class="form-group">
+        <label for="newStudentName">New Student Name</label>
+        <input type="text" class="form-control" id="newStudentName" placeholder="Enter new student name">
+
+        <label for="newStudentEmail">New Student Email</label>
+        <input type="email" class="form-control" id="newStudentEmail" placeholder="Enter new student email">
+
+        <label for="newStudentBio">New Student Bio</label>
+        <input type="text" class="form-control" id="newStudentBio" placeholder="Enter new student bio">
+
+        <button id="createStudent" class="btn btn-success mt-2">Create Student</button>
+    </div>
+
+    <div class="form-group">
+        <label for="updateStudentName">Update Student Name</label>
+        <input type="text" class="form-control" id="updateStudentName" placeholder="Enter updated student name">
+
+        <label for="updateStudentEmail">Update Student Email</label>
+        <input type="email" class="form-control" id="updateStudentEmail" placeholder="Enter updated student email">
+
+        <label for="updateStudentBio">Update Student Bio</label>
+        <input type="text" class="form-control" id="updateStudentBio" placeholder="Enter updated student bio">
+
+        <button id="updateStudent" class="btn btn-warning mt-2">Update Student</button>
+    </div>
+
+    <div id="result" class="mt-4 card-columns"></div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#getStudentByName').click(function() {
+            let studentName = $('#studentName').val();
+            $.get(`/student/get-student-by-name/${studentName}`, function(data) {
+                displayCards([data.data]);
+            }).fail(function(response) {
+                $('#result').html(`<div class="alert alert-danger">Failed to get Student: ${response.responseJSON.message}</div>`);
+            });
+        });
+
+        $('#getStudentByCourseId').click(function() {
+            let courseId = $('#courseId').val();
+            $.get(`/student/get-student-by-course-id/${courseId}`, function(data) {
+                displayCards(data.data);
+            }).fail(function(response) {
+                $('#result').html(`<div class="alert alert-danger">Failed to get Student: ${response.responseJSON.message}</div>`);
+            });
+        });
+
+        $('#getAllStudents').click(function() {
+            $.get(`/student/get-all-student`, function(data) {
+                displayCards(data.data);
+            }).fail(function(response) {
+                $('#result').html(`<div class="alert alert-danger">Failed to get all Students: ${response.responseJSON.message}</div>`);
+            });
+        });
+
+        $('#createStudent').click(function() {
+            let studentName = $('#newStudentName').val();
+            let studentEmail = $('#newStudentEmail').val();
+            let studentBio = $('#newStudentBio').val();
+            $.ajax({
+                url: '/student/create-student',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    name: studentName,
+                    email: studentEmail,
+                    bio: studentBio
+                }),
+                success: function(data) {
+                    $('#result').html(`<div class="alert alert-success">${data.message}</div>`);
+                },
+                error: function(response) {
+                    $('#result').html(`<div class="alert alert-danger">Failed to create Student: ${response.responseJSON.message}</div>`);
+                }
+            });
+        });
+
+        $('#updateStudent').click(function() {
+            let studentName = $('#updateStudentName').val();
+            let studentEmail = $('#updateStudentEmail').val();
+            let studentBio = $('#updateStudentBio').val();
+            $.ajax({
+                url: '/student/update-student',
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    name: studentName,
+                    email: studentEmail,
+                    bio: studentBio
+                }),
+                success: function(data) {
+                    $('#result').html(`<div class="alert alert-success">${data.message}</div>`);
+                },
+                error: function(response) {
+                    $('#result').html(`<div class="alert alert-danger">Failed to update Student: ${response.responseJSON.message}</div>`);
+                }
+            });
+        });
+
+        function displayCards(students) {
+            $('#result').empty();
+            students.forEach(function(student) {
+                let card = `<div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">${student.name}</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">${student.email}</h6>
+                                    <p class="card-text">${student.bio}</p>
+                                </div>
+                            </div>`;
+                $('#result').append(card);
+            });
+        }
+    });
+</script>
+</body>
+</html>
